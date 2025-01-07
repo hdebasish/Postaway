@@ -1,4 +1,4 @@
-# Social-Media API
+# Postaway API
 
 A RESTful API for a social media platform, enabling user authentication, profile management, posts, comments, likes, friendships, and OTP-based password reset functionality.
 
