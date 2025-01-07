@@ -13,11 +13,11 @@ friendRouter.get("/get-pending-requests", (req, res, next) => {
   friendController.getPendingRequests(req, res, next);
 });
 
-friendRouter.get("/toggle-friendship/:userId", (req, res, next) => {
+friendRouter.post("/toggle-friendship/:userId", (req, res, next) => {
   friendController.toggleFriends(req, res, next);
 });
 
-friendRouter.get("/response-to-request/:friendId", (req, res, next) => {
+friendRouter.post("/response-to-request/:friendId", (req, res, next) => {
   friendController.respondRequest(req, res, next);
 });
 

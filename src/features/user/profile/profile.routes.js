@@ -17,11 +17,11 @@ profileRouter.put("/update-details/:userId", (req, res, next) => {
   profileController.updateUserDetail(req, res, next);
 });
 
-profileRouter.get("/logout", (req, res, next) => {
+profileRouter.post("/logout", (req, res, next) => {
   profileController.logout(req, res, next);
 });
 
-profileRouter.get("/logout-all-devices", (req, res, next) => {
+profileRouter.post("/logout-all-devices", (req, res, next) => {
   profileController.logoutAll(req, res, next);
 });
 

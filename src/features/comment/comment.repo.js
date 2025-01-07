@@ -47,10 +47,35 @@ export default class CommentRepo {
     try {
       const db = getDB();
       const collection = db.collection(this.collection);
-      const comments = await collection
-        .find({ postId: new ObjectId(postId) })
-        .toArray();
-      return comments;
+      const comments = await collection.aggregate([
+        {
+            $match: { postId: new ObjectId(postId) } 
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "userId",
+                foreignField: "_id",
+                as: "user"
+            }
+        },
+        {
+            $unwind: "$user"
+        },
+        {
+            $project: {
+                _id: 1,
+                content: 1,
+                postId: 1,
+                user: {
+                    _id: 1,
+                    name: 1,
+                    email: 1
+                }
+            }
+        }
+    ]);
+      return comments.toArray();
     } catch (error) {
       throw error;
     }

@@ -13,22 +13,19 @@ export default class LikeController {
       const type = req.query.type;
 
       if (userId && likeable && type) {
-        if (type != "Post" && type != "Comment") {
-          return res.status(400).send("Invalid request");
-        }
 
         if (type == "Post") {
           const post = await this.likeRepo.findPostById(likeable);
           if (!post) {
             return res.status(404).send("Post not found");
           }
-        }
-
-        if (type == "Comment") {
+        }else if (type == "Comment") {
           const comment = await this.likeRepo.findCommentById(likeable);
           if (!comment) {
             return res.status(404).send("Comment not found");
           }
+        }else{
+          return res.status(400).send("Invalid type");
         }
 
         const likeData = new LikeModel(userId, likeable, type);

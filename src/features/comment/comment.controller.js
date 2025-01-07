@@ -12,6 +12,10 @@ export default class CommentController {
       const userId = req.userId;
       const content = req.body.content;
 
+      if(!postId){
+        return res.status(400).send("Post ID is required");
+      }
+
       if (!content) {
         return res.status(400).send("Content is required");
       }

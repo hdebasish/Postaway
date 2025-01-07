@@ -23,7 +23,7 @@ export default class AuthController {
       } else {
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        const user = new AuthModel(name, email, hashedPassword, gender);
+        const user = new AuthModel(name, email.toLowerCase(), hashedPassword, gender);
 
         const createdUser = await this.authRepo.signup(user);
 
@@ -41,7 +41,7 @@ export default class AuthController {
   async signin(req, res, next) {
     try {
       const email = req.body.email;
-      const user = await this.authRepo.findByEmail(email);
+      const user = await this.authRepo.findByEmail(email.toLowerCase());
 
       if (user) {
         const validate = await bcrypt.compare(req.body.password, user.password);

@@ -10,7 +10,7 @@ export default class Validator {
         .withMessage("Minimum character of password must be 4"),
       body("gender")
         .notEmpty()
-        .isIn(["Male", "Female"])
+        .isIn(["male", "female"])
         .withMessage("Please enter a valid gender"),
     ];
   }

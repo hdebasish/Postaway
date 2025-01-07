@@ -33,7 +33,7 @@ export default class OTPController {
           service: "gmail",
           auth: {
             user: "codingninjas2k16@gmail.com",
-            pass: "slwvvlczduktvhdj",
+            pass: process.env.EMAIL_PASSWORD,
           },
         });
 

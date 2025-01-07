@@ -9,12 +9,18 @@ import commentRouter from "./src/features/comment/comment.routes.js";
 import likeRouter from "./src/features/like/like.routes.js";
 import friendRouter from "./src/features/friend/friend.routes.js";
 import otpRouter from "./src/features/otp/otp.routes.js";
+import path from 'path';
+const __dirname = path.resolve();
 
 const app = express();
 
 // Body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+
+// Serve static files from the "public" directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Auth routes and profile routes
 app.use("/api/users", userRouter);

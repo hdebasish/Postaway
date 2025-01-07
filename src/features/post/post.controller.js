@@ -55,7 +55,11 @@ export default class PostController {
 
   async getUserPosts(req, res, next) {
     try {
-      const id = req.userId;
+      const id = req.params.userId;
+
+      if (!id) {
+        return res.status(400).send("User ID is required");
+      }
 
       const posts = await this.postRepo.getPostByUser(id);
 
@@ -73,6 +77,10 @@ export default class PostController {
     try {
       const postId = req.params.postId;
 
+      if (!postId) {
+        return res.status(400).send("Post ID is required");
+      }
+
       const post = await this.postRepo.getPostById(postId);
 
       if (post) {
@@ -88,6 +96,10 @@ export default class PostController {
   async updatePost(req, res, next) {
     try {
       const postId = req.params.postId;
+
+      if (!postId) {
+        return res.status(400).send("Post ID is required");
+      }
 
       const userId = req.userId;
 
@@ -119,6 +131,10 @@ export default class PostController {
   async deletePost(req, res, next) {
     try {
       const postId = req.params.postId;
+
+      if (!postId) {
+        return res.status(400).send("Post ID is required");
+      }
 
       const userId = req.userId;
 

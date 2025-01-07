@@ -10,8 +10,39 @@ export default class PostRepo {
     try {
       const db = getDB();
       const collection = db.collection(this.collection);
-      const out = await collection.find().toArray();
-      return out;
+      const out = await collection.aggregate([
+        {
+          $lookup: {
+            from: "comments",
+            localField: "comments",
+            foreignField: "_id",
+            as: "commentDetails"
+          }
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "commentDetails.userId",
+            foreignField: "_id",
+            as: "userDetails"
+          }
+        },
+        {
+          $project: {
+            _id: 1,
+            imageUrl: 1,
+            caption: 1,
+            commentDetails: {
+              content: 1,
+              userId: 1,
+              user: {
+                $arrayElemAt: ["$userDetails.name", 0]
+              }
+            }
+          }
+        }
+      ]);
+      return out.toArray();
     } catch (error) {
       throw error;
     }
@@ -21,7 +52,41 @@ export default class PostRepo {
     try {
       const db = getDB();
       const collection = db.collection(this.collection);
-      return await collection.find({ userId: new ObjectId(userId) }).toArray();
+      return await collection.aggregate([
+        {
+          $match: { userId: new ObjectId(userId) } 
+        },
+        {
+          $lookup: {
+            from: "comments",
+            localField: "comments",
+            foreignField: "_id",
+            as: "commentDetails"
+          }
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "commentDetails.userId",
+            foreignField: "_id",
+            as: "userDetails"
+          }
+        },
+        {
+          $project: {
+            _id: 1,
+            imageUrl: 1,
+            caption: 1,
+            commentDetails: {
+              content: 1,
+              userId: 1,
+              user: {
+                $arrayElemAt: ["$userDetails.name", 0]
+              }
+            }
+          }
+        }
+      ]).toArray();
     } catch (error) {
       throw error;
     }
@@ -31,7 +96,41 @@ export default class PostRepo {
     try {
       const db = getDB();
       const collection = db.collection(this.collection);
-      return await collection.findOne({ _id: new ObjectId(id) });
+      return await collection.aggregate([
+        {
+          $match: { _id: new ObjectId(id) } 
+        },
+        {
+          $lookup: {
+            from: "comments",
+            localField: "comments",
+            foreignField: "_id",
+            as: "commentDetails"
+          }
+        },
+        {
+          $lookup: {
+            from: "users",
+            localField: "commentDetails.userId",
+            foreignField: "_id",
+            as: "userDetails"
+          }
+        },
+        {
+          $project: {
+            _id: 1,
+            imageUrl: 1,
+            caption: 1,
+            commentDetails: {
+              content: 1,
+              userId: 1,
+              user: {
+                $arrayElemAt: ["$userDetails.name", 0]
+              }
+            }
+          }
+        }
+      ]).toArray();
     } catch (error) {
       throw error;
     }
